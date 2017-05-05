@@ -11,13 +11,11 @@
 #' @export
 #'
 #' @examples
-write.atmosph.in<- function(file.atmosph.in, MaxAL,
+write.atmosph.in<- function(file.atmosph.in = "ATMOSPH.IN", MaxAL,
             tstep, atm.bc.data, sim_ind = 1, ...){
 
-        # default.filename = "ATMOSPH.IN"
-
       atm_data = readLines(con = file.atmosph.in, n = -1L, encoding = "unknown")
-      atm_data_bak = atm_data
+
       # write(atm_data, file = "ATMOSPH_IN.BAK", append = F)
 
       maxAL_ind = grep(" MaxAL", atm_data)

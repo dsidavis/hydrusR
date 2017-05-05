@@ -19,13 +19,12 @@ read.obs_node<- function(simulation.path, obs.output = c("h", "theta"), obs.node
       #                           comment.char = "#",
       #                           allowEscapes = FALSE, flush = FALSE,
       #                           stringsAsFactors = default.stringsAsFactors())
-      # #
+      #
       #   output_names = obs_node_out[1, ]
       #   obs_node_out = obs_node_out[-c(1, nrow(obs_node_out)), ]
 
       obs_node_out = data.table::fread(input = file.path(simulation.path, "Obs_Node.out"),
               fill = TRUE, blank.lines.skip = FALSE)
-
       output_names = unlist(unclass(obs_node_out[10]))
       output_names = unique(output_names[!is.na(output_names)])
       output_names = output_names[2:length(output_names)]
@@ -43,22 +42,11 @@ read.obs_node<- function(simulation.path, obs.output = c("h", "theta"), obs.node
             obs_node_out = obs_node_out
 
       } else {
-          output_cols = grepl(obs.output, names(obs_node_out))
-            # output_ind = grepl(pattern = paste(c("Time", obs.output), collapse = "|"), x = names(obs_node_out))
-            cols = c("Time", names(obs_node_out)[output_cols])
-            obs_node_out =  obs_node_out[, cols]
+
+            output_ind = grepl(pattern = paste(c("Time", obs.output), collapse = "|"), x = names(obs_node_out))
+            obs_node_out = obs_node_out[, output_ind]
 
       }
-
-      t1 = obs_node_out[1, ]
-      t1$Time = 0
-      tstep = diff(obs_node_out$Time)
-      tstep = tstep[length(tstep)]
-      remainder = obs_node_out$Time%%tstep
-      rem_ind = which(remainder == 0)
-
-      obs_node_out = rbind(t1, obs_node_out[rem_ind, ])
-      row.names(obs_node_out) = NULL
 
       return(obs_node_out)
 
