@@ -12,4 +12,3 @@ compile.A_level.out(outputs.path, output = NULL, num.of.sims = 1, ...)
 \description{
 Compile ALEVEL.OUT data from all simulations
 }
-

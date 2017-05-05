@@ -12,4 +12,3 @@ write.obs.nodes(project.path, Z, dz, obs.nodes)
 \description{
 Write observation nodes in profile.dat
 }
-

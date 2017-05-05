@@ -12,4 +12,3 @@ write.bottom.bc(constant.bc, bc.type, bc.value, project.path, ...)
 \description{
 Write bottom BC
 }
-

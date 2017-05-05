@@ -12,4 +12,3 @@ write.ini.cond(file.profile.dat, pr.vec = NULL, wt, soil.depth, n.nodes, ...)
 \description{
 Write initial conditions in profile.dat
 }
-

@@ -12,4 +12,3 @@ get_water_table(simulation.path, sim.num)
 \description{
 Calculate WT depth from soil moisture profile and parameters
 }
-

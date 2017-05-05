@@ -12,4 +12,3 @@ write.print.times(input.file, tmax, tstep, ...)
 \description{
 Write print times in selector.in
 }
-

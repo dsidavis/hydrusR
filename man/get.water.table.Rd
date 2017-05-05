@@ -12,4 +12,3 @@ get.water.table(tlevel.out, soil.depth)
 \description{
 Extracts water table depth at each time step
 }
-

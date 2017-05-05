@@ -12,4 +12,3 @@ read.obs_node(simulation.path, obs.output = c("h", "theta"), obs.nodes, ...)
 \description{
 Read Outputs of OBS_NOD.OUT
 }
-

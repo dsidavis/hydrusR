@@ -12,4 +12,3 @@ compile.T_level.out(outputs.path, output = NULL, num.of.sims = 1, ...)
 \description{
 Compiles output of TLEVEL.OUT from all simulations
 }
-
