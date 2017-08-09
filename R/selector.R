@@ -47,10 +47,10 @@ function(b17 = NULL,
          F11 = NULL,
          DifW = 0, DifG = 0,
          ...,
-         template = "SELECTOR.IN",
-         txt = readLines(template),
+         template = system.file("templates", "SELECTOR.IN", package = "hydrusR"),
+         txt = readLines(template))
 {
-    origNMat = as.integer(getValue(txt, "NMat")))
+    origNMat = getValue(txt, "NMat", "integer")
 
     txt = replaceValues(txt, .values = list(...))
     
@@ -67,7 +67,7 @@ function(b17 = NULL,
         blocks$C = replaceValues(blocks$C, "MPL" = length(TPrint), TPrint = TPrint) #  matrix(TPrint,,6, byrow = TRUE))
 
     if(!is.null(chpar)) {
-        nchpar = as.integer(getValue(blocks$F, "nChPar"))
+        nchpar = getValue(blocks$F, "nChPar", "integer")
         blocks$F = replaceValues(blocks$F, "nChPar" = nrow(chpar))
         blocks$F = replaceData(blocks$F, "Bulk.d.", nchpar, chpar)
     }
@@ -120,8 +120,21 @@ function(d, difw, difg)
 `$.SELECTOR` =
 function(x, name)
 {
-  getBlocks(x)[[name]]
+  structure(getBlocks(x)[[name]], class = "BLOCK")
 }
+
+`[[.SELECTOR` =
+function(x, i, j, ...)
+{
+  getValue(x, i)
+}
+
+`[[.BLOCK` =
+function(x, i, j, ...)
+{
+  getValue(x, i)
+}
+
 
 
 getBlocks =
@@ -130,7 +143,7 @@ function(txt)
     b = split(txt, cumsum(grepl("*** BLOCK", txt, fixed = TRUE)))
     names(b)[-1] = sapply(b[-1], function(x) gsub(".*BLOCK ([A-G]).*", "\\1", x[1]))
     names(b)[1] = "Version"
-    b
+    lapply(b, unname)
 }
 
 trim =
@@ -138,13 +151,19 @@ function (x)
     gsub("(^[[:space:]]+|[[:space:]]+$)", "", x)
 
 getValue =
-function(block, varName)
+function(block, varName, coerce = NULL)
 {
     if(length(varName) > 1)
        return(sapply(varName, getValue))
 
     loc = findValue(block, varName)
-    strsplit(trim(block[[loc["line"]]]), "[[:space:]]+")[[1]][ loc["element" ] ]
+    ans = strsplit(trim(block[loc["line"]]), "[[:space:]]+")[[1]][ loc["element" ] ]
+    if(is.character(coerce))
+        as(ans, coerce)
+    else if(is.function(coerce))
+        coerce(ans)
+    else
+        ans
 }
 
 findValue =
