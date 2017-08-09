@@ -16,15 +16,27 @@ genSelector =
 #'@param  chpar  Data frame giving solute transport parameters, 1 row per solute Block F, record 7
 #'@param  F.Ks a vector giving the Ks columns for Block F, record 11.
 #'@param  F.SnkL1p  a vector giving the SnkL1' columns for Block F, record 11
-#'@param   Both F.Ks and F.SnkL1p should have No.Solutes * NMat values.
+#   Both F.Ks and F.SnkL1p should have No.Solutes * NMat values.
 #'@param  F11  a data frame providing all of the columns for each solute. Block F, record 11
 #'    F11 should have NMat * No.Solutes rows.
 #@param  DifW, DifG - vectors which will be replicated to have length No.Solutes
-#
+    #
+    #
+#'@description This does not check the conditional logic based on the
+    #   values of parameters in the file such as Hysterisis, iModel, etc. which
+    #   change the structure of what is expected in the inputs.
+    #   This only allows the caller to specify a few records in the selector file.
+    #   However, the tools \code{replaceValues}, \code{replaceColumn}, \code{replaceData}
+    #   allow one to write code reasonably easily to handle other records.
+    
 #@return  a character vector containing the updated contents of the input file.
-#    You need to write this to a file.
+    #    You need to write this to a file.  This differs from the original functions
+    # in hydrusR.
+    # Note that if you are using RHydrus, one can name the files differently from SELECTOR.IN, etc.
+    # and specify the input files to use directly. This means that the names of the input files
+    # can indicate their purpose/characteristics.
 #
-#
+#@export
 #
 #
 function(b17 = NULL,
@@ -37,10 +49,12 @@ function(b17 = NULL,
          ...,
          template = "SELECTOR.IN",
          txt = readLines(template),
-         blocks = getBlocks(txt),
-         origNMat = as.integer(getValue(txt, "NMat")))
 {
-    force(origNMat)
+    origNMat = as.integer(getValue(txt, "NMat")))
+
+    txt = replaceValues(txt, .values = list(...))
+    
+    blocks = getBlocks(txt)    
     
     if(!is.null(b17)) {
           # See p225 of HYDRUS1D manual
@@ -97,7 +111,7 @@ function(b17 = NULL,
 mkSoluteInfo =
 function(d, difw, difg)    
 {
-     c("    DifW     DifG      n-th solute"
+     c("    DifW     DifG      n-th solute",
        sprintf("      %f    %f", difw, difg),
        showDataFrame(d)
       )
