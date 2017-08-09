@@ -67,8 +67,8 @@ function(b17 = NULL,
         blocks$C = replaceValues(blocks$C, "MPL" = length(TPrint), TPrint = TPrint) #  matrix(TPrint,,6, byrow = TRUE))
 
     if(!is.null(chpar)) {
-        nchpar = getValue(blocks$F, "nChPar", "integer")
-        blocks$F = replaceValues(blocks$F, "nChPar" = nrow(chpar))
+        nchpar = getValue(blocks$A, "NMat", "integer")
+        # blocks$F = replaceValues(blocks$F, "nChPar" = nrow(chpar))
         blocks$F = replaceData(blocks$F, "Bulk.d.", nchpar, chpar)
     }
 
@@ -86,22 +86,22 @@ function(b17 = NULL,
         #
         # Assumes a data.frame
         F = blocks$F
-        s = grep("DifW", F)
+        s = grep("DifW", F)[1]
         e = grep("kTopSolute", F)
         nmat = as.integer(getValue(blocks$A, "NMat"))
         nsol = nrow(F11)/nmat
         if(floor(nsol) != nsol)
             warning("numer of rows in F11 not a multiple of NMat")
-
+browser()
         F = replaceValues(F, "No.Solutes" = nsol)
         
         solID = rep(1:nsol, each = nmat)        
         DifW = rep(DifW, length = nsol)
         DifG = rep(DifG, length = nsol)
         ll = lapply(1:nsol, function(i)
-                       mkSoluteInfo(nmat[solID == i, ], DifW[i], DifG[i]))
+                       mkSoluteInfo(F11[solID == i, ], DifW[i], DifG[i]))
 
-        F = c(seq(1, s - 1), unlist(ll), seq(e, length(F)))
+        F = c(F[seq(1, s - 1)], unlist(ll), F[seq(e, length(F))])
         blocks$F = F
     }
     
@@ -174,7 +174,7 @@ function(block, varName, coerce = NULL)
 findValue =
 function(block, varName)
 {
-    i = grep(sprintf("(^| +)%s\\b", varName), block)
+    i = grep(sprintf("(^| +)%s( |$)", varName), block)
     if(length(i) == 0)
        stop("No variable named ", varName, " found in this block")
 
@@ -212,12 +212,12 @@ function(block, var, nrow, data, ...)
            else
               character()
     
-    row = showDataFrame(data)
+    rows = showDataFrame(data)
     c(top, rows, rest)
 }
 
 showDataFrame =
-function(data)
+function(data, ...)
 {
     odig = options()$width
     options(width = 10000)
