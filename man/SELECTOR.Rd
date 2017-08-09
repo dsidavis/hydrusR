@@ -5,7 +5,10 @@
 \alias{[.BLOCK}
 \alias{[[.BLOCK}
 \title{Convenient subsetting operators on SELECTOR and BLOCK objects}
-\usage{}
+\usage{
+x[i, j]
+x$block
+}
 \arguments{
 \item{x}{a SELECTOR or BLOCK object}
 }
@@ -25,7 +28,14 @@
   of a variable within the selector file that specifies the number of
   rows.  For example, \code{o["thr",  "NMat"]}.
 }
+\value{
+  \code{$} returns  a BLOCK object.
 
+  \code{[[} returns a value  which may be a scalar, vector or
+  data.frame.
+
+  \code{[,]} returns a data.frame.
+}
 \example{
   o = genSelector()
   o$B
@@ -48,3 +58,5 @@
   # But NMat isn't within block F.
   o$F["Ks", getValue(o, "NMat", "integer")]
 }
+
+\keyword{IO}
