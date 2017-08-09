@@ -135,6 +135,38 @@ function(x, i, j, ...)
   getValue(x, i)
 }
 
+`[.SELECTOR` = `[.BLOCK` =
+function(x, i, j, ...)
+{
+    if(missing(j) || !is.character(i))
+        return(NextMethod())
+
+    txt = unclass(x)
+    if(is.character(j))
+        nrow = getValue(x, j, "integer")
+    else
+        nrow = j
+    
+    loc = findValue(x, i)
+    loc = loc[-length(loc)]
+    if(length(loc) > 1)
+       lapply(loc, getDataFrame, txt, nrow)
+    else
+       getDataFrame(loc[1], txt, nrow)
+}
+
+
+getDataFrame =
+function(row, txt, nrow)
+{
+    ll = txt[ seq(row - 1, row + nrow - 1)]
+    read.table(textConnection(ll), stringsAsFactors = FALSE, header = TRUE)
+}
+
+#setOldClass(c("SELECTOR"))# , "character"))
+#setMethod("[", c("SELECTOR", "character", "character"), foo)
+
+
 
 
 getBlocks =
