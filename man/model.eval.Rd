@@ -12,3 +12,4 @@ model.eval(data, var.name = "", print.stats = TRUE, plot = FALSE, ...)
 \description{
 Calculate RMSE and Nash-Sutcliffe CEFF of the simulation
 }
+

@@ -13,3 +13,4 @@ compile.obs_nodes.out(outputs.path, num.of.sims, output = c("h", "theta"),
 \description{
 Compile outputs at observation nodes, from all simulations
 }
+

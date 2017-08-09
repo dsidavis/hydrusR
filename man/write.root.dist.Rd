@@ -12,3 +12,4 @@ write.root.dist(file.profile.dat, rdepth, rbeta = 0.962, n.nodes, ...)
 \description{
 Write root distribution in profile.dat
 }
+

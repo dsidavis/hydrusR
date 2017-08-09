@@ -12,3 +12,4 @@ et.hourly(Et.Daily, hours = 6:20)
 \description{
 Generates hourly ET inputs from provided daily value.
 }
+

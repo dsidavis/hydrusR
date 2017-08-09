@@ -12,3 +12,4 @@ read.A_level.out(simulation.path, output = NULL, warn = FALSE, ...)
 \description{
 Read outputs of ALEVEL.OUT
 }
+

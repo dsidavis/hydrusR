@@ -12,3 +12,4 @@ read.nod_inf(simulation.path, output = NULL, warn = FALSE, ...)
 \description{
 READ outputs of NOD_INF.OUT
 }
+

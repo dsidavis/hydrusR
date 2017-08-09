@@ -32,8 +32,8 @@ F11 should have NMat * No.Solutes rows.}
 \item{txt}{the text of the template file}
 
 \description{
-If you specify a different value for NMat, the number of soil materials,
-than is in the template file, you need to update all of the data in
+If you explicitly or implicitly specify a different value for NMat - the number of soil materials,
+than is in the original template file, you need to update all of the data in
 the input file(s) that is expected to have NMat values.
 Block B, record 17 is one, specifiable by \code{b17}.
 Record 19 in Block B is another, but not always relevant, i.e., only when iModel == 9.

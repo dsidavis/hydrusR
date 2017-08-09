@@ -12,3 +12,4 @@ write.atmosph.in(file.atmosph.in, MaxAL, tstep, atm.bc.data, sim_ind = 1, ...)
 \description{
 Write atmospheric boundary condition inputs
 }
+
