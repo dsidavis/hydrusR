@@ -7,10 +7,17 @@
 \title{Convenient subsetting operators on SELECTOR and BLOCK objects}
 \usage{
 x[i, j]
-x$block
+x$name
 }
 \arguments{
-\item{x}{a SELECTOR or BLOCK object}
+  \item{x}{a SELECTOR or BLOCK object}
+  \item{name}{the name of a block, e.g. A, B}
+  \item{i}{a single string giving the name of a variable in the selector
+    document}
+  \item{j}{either a single string giving the name of a variable whose
+    value will be used to determine the number of rows, or an explicit
+    number giving the number of rows. Specifying this as a number allows
+    one to get a subset of the values.}
 }
 \description{
   The purpose of these operators is to make it convenient to extract
