@@ -24,26 +24,74 @@ genSelector(b17 = NULL, TPrint = NULL, chpar = NULL, F.Ks = NULL,
 F11 should have NMat * No.Solutes rows.}
 }
 \item{\dots}{\code{name=value} pairs of parameters to set. These
-  are passed to \code{replaceValues}. 
+  are passed to \code{replaceValues}.
+  You can set any scalar value with these, as long as it is unique in
+  the file.
 }
 \item{template}{the path to the template SELECTOR.IN file}
 \item{txt}{the text of the template file}
 
 \description{
-This does not check the conditional logic based on the
-values of parameters in the file such as Hysterisis, iModel, etc. which
-change the structure of what is expected in the inputs.
+If you specify a different value for NMat, the number of soil materials,
+than is in the template file, you need to update all of the data in
+the input file(s) that is expected to have NMat values.
+Block B, record 17 is one, specifiable by \code{b17}.
+Record 19 in Block B is another, but not always relevant, i.e., only when iModel == 9.
+Block E, record 3, and we have not support as yet for changing block E.
+Block F, record 7 and 11 which are specified in this function via the
+\code{F11}, \code{DifW} and \code{DigW} parameters.
+Similarly, we can set columns via \code{F.Ks} and \code{F.SnkL1p} and
+these should have \code{NMat} values for each solute.
+Block G, record 7(a) should have NMat values in the vector for POptm.
+
+
 This only allows the caller to specify a few records in the selector file.
 However, the tools \code{replaceValues}, \code{replaceColumn}, \code{replaceData}
 allow one to write code reasonably easily to handle other records.
+
+This does not check the conditional logic based on the
+values of parameters in the file such as Hysterisis, iModel, etc. which
+change the structure of what is expected in the inputs.
+We recommend using different template files for these situations and
+specifying  which to use via the \code{template} parameter.
+The assumption is that there are a small number of configurations, but
+for each, we want to change the values of the parameters often.
 }
 
 \value{
 a character vector containing the updated contents of the input file.
-You need to write this to a file.  This differs from the original functions
-in hydrusR.
+You need to write this to a file.  This differs from the original
+functions in hydrusR.
+
 Note that if you are using RHydrus, one can name the files differently from SELECTOR.IN, etc.
 and specify the input files to use directly. This means that the names of the input files
 can indicate their purpose/characteristics.
+
+The class of the return value is actually \code{SELECTOR}.
+There are two methods that make it convenient to work with this object.
+If we call the function as, e.g., \code{o = genSelector()},
+then \code{o$B} will return block B, and similarly for blocks A, C, D,
+E, F, G.
+The [[ operator allows us to get the value of a scalar variable in the
+SELECTOR, e.g.,
+\code{o$NMat}.
+This also works for a specific block, e.g.,
+\code{o$C[["dt"]]}
 }
 
+\examples{
+o = genSelector(P0 = -5, P2H = -999, P2L = -998, P3 = -8999, r2H = 1, r2L = .5)
+o$G
+o[["NMat"]]
+o$G[["P0"]]
+o[["P0"]]
+# cat(o, file = "SELECTOR1.IN", sep = "\n")
+
+o = genSelector(TPrint = seq(1000, by = 500, length = 15))
+o$C
+
+o = genSelector()
+o$A
+o[["NMat"]]
+o$G[["POptm"]]
+}

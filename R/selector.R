@@ -157,7 +157,12 @@ function(block, varName, coerce = NULL)
        return(sapply(varName, getValue))
 
     loc = findValue(block, varName)
-    ans = strsplit(trim(block[loc["line"]]), "[[:space:]]+")[[1]][ loc["element" ] ]
+    if(length(loc) == 1 &&  grepl(sprintf("%s\\(", varName), block[loc-1]) ) {
+        # so a vector of values.
+        ans = strsplit(block[loc], "[[:space:]]+")[[1]]
+        ans = ans[ans != ""]
+    } else
+       ans = strsplit(trim(block[loc["line"]]), "[[:space:]]+")[[1]][ loc["element" ] ]
     if(is.character(coerce))
         as(ans, coerce)
     else if(is.function(coerce))
