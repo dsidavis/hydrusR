@@ -15,6 +15,7 @@ F11 = as.data.frame(matrix(rnorm(length(vars)*nmat*nsol), nmat*nsol, length(vars
 tprint = seq(500, by = 250, length = 9)
 
 #
+options(digits = 2)
 o = genSelector(b17 = b, TPrint = tprint, chpar = chpar, F11 = F11, DifW = c(1, 2), DifG = c(.5, 1.5), P0 = -5, P2H = -999, P2L = -998, P3 = -8999, r2H = 1, r2L = .5)
 o[["NMat"]]
 o[["r2L"]]

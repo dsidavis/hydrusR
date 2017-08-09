@@ -185,13 +185,13 @@ function(block, varName)
 
 
 replaceColumn =
-function(block, var, nrow, values)
+function(block, var, nrow, values, width = 7)
 {
     loc = findValue(block, var)
     col = loc[length(loc)]
     loc = loc[-length(loc)]
 
-    values = matrix(values, nrow)
+    values = matrix(format(values, width = width, justify = "centre"), nrow)
     for(i in 1:nrow) {
         for(b in seq(along = loc)) {
             ln = loc[b] + i - 1
@@ -266,6 +266,9 @@ replaceWord =
     #
     #  l = " t     t      -1       f"
     #  replaceWord(l, 3, 100)
+    #
+    #  Could improve this and the caller functions to use format() to get the width that we
+    #  want for columns especially.
     #
 function(line, wordNum, value)
 {
