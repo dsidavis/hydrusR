@@ -22,7 +22,7 @@ genSelector(b17 = NULL, TPrint = NULL, chpar = NULL, F.Ks = NULL,
 
 \item{F11}{a data frame providing all of the columns for each solute. Block F, record 11
 F11 should have NMat * No.Solutes rows.}
-}
+
 \item{\dots}{\code{name=value} pairs of parameters to set. These
   are passed to \code{replaceValues}.
   You can set any scalar value with these, as long as it is unique in
@@ -30,6 +30,7 @@ F11 should have NMat * No.Solutes rows.}
 }
 \item{template}{the path to the template SELECTOR.IN file}
 \item{txt}{the text of the template file}
+}
 
 \description{
 If you explicitly or implicitly specify a different value for NMat - the number of soil materials,

@@ -43,7 +43,7 @@ x$name
 
   \code{[,]} returns a data.frame.
 }
-\example{
+\examples{
   o = genSelector()
   o$B
   o$F
