@@ -67,16 +67,16 @@ function(b17 = NULL,
         blocks$C = replaceValues(blocks$C, "MPL" = length(TPrint), TPrint = TPrint) #  matrix(TPrint,,6, byrow = TRUE))
 
     if(!is.null(chpar)) {
-        nchpar = getValue(blocks$A, "NMat", "integer")
+        # nchpar = getValue(blocks$A, "NMat", "integer")
         # blocks$F = replaceValues(blocks$F, "nChPar" = nrow(chpar))
-        blocks$F = replaceData(blocks$F, "Bulk.d.", nchpar, chpar)
+        blocks$F = replaceData(blocks$F, "Bulk.d.", origNMat, chpar)
     }
 
     if(!is.null(F.Ks)) 
-        blocks$F = replaceColumn(blocks$F, "Ks", as.integer(getValue(blocks$A, "NMat")), F.Ks)
+        blocks$F = replaceColumn(blocks$F, "Ks", origNMat, F.Ks)  # as.integer(getValue(blocks$A, "NMat"))
 
     if(!is.null(F.SnkL1p)) 
-        blocks$F = replaceColumn(blocks$F, "SnkL1'", as.integer(getValue(blocks$A, "NMat")), F.SnkL1p)
+        blocks$F = replaceColumn(blocks$F, "SnkL1'", origNMat, F.SnkL1p) # as.integer(getValue(blocks$A, "NMat"))
 
     if(!is.null(F11)) {
         #
@@ -92,7 +92,7 @@ function(b17 = NULL,
         nsol = nrow(F11)/nmat
         if(floor(nsol) != nsol)
             warning("numer of rows in F11 not a multiple of NMat")
-browser()
+
         F = replaceValues(F, "No.Solutes" = nsol)
         
         solID = rep(1:nsol, each = nmat)        
@@ -174,7 +174,7 @@ function(block, varName, coerce = NULL)
 findValue =
 function(block, varName)
 {
-    i = grep(sprintf("(^| +)%s( |$)", varName), block)
+    i = grep(sprintf("(^| +)%s( |\\(|$)", varName), block)
     if(length(i) == 0)
        stop("No variable named ", varName, " found in this block")
 
@@ -275,7 +275,7 @@ function(line, wordNum, value)
     m = gregexpr("[-.a-zA-Z0-9]+", line)[[1]]
     s = m[wordNum] 
     e = s + attr(m, "match.length")[wordNum]
-    tmp = c(substring(line, 1, s - 1), value, substring(line, e+1))
+    tmp = c(substring(line, 1, s - 1), value, " ", substring(line, e + 1))
     paste(tmp, collapse = "")
 }
              
