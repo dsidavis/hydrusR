@@ -48,7 +48,7 @@ write.hydraulic.para<- function(project.path, model = 0, hysteresis = 0, para, .
       para_values_split = para_values_split[para_values_split != ""]
 
       if(length(para_values_split) != length(para)) {
-            stop("ERROR|number of parameters provided doesnot match with model selected!")
+            stop("ERROR|number of parameters provided does not match with model selected!")
 
       }
 
