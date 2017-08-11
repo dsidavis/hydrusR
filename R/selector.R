@@ -51,8 +51,15 @@ function(b17 = NULL,
          txt = readLines(template))
 {
     origNMat = getValue(txt, "NMat", "integer")
-
-    txt = replaceValues(txt, .values = list(...))
+    dots = list(...)
+    newTempParm = names(dots) %in% c("qGWLF", "DrainF", "iPosDr", "Hysteresis", "Model")
+    if(any(newTempParm))
+        warning(paste0("Changing '",
+                       paste(names(dots)[newTempParm], collapse = ", "),
+                       "' alters the format of the SELECTOR.IN file.",
+                       " Please ensure your template is appropriate."))
+                       
+    txt = replaceValues(txt, .values = dots)
     
     blocks = getBlocks(txt)    
     
